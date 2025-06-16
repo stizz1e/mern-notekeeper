@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import SignupForm from "./pages/SignupForm";
+import LoginForm from "./pages/LoginForm";
+import NotesPage from './pages/NotesPage';
+import {Card} from 'react-bootstrap';
+
+
 
 function App() {
-  const [count, setCount] = useState(0)
+   const token = localStorage.getItem('token');
+
+  const isValidToken = token && token !== 'undefined' && token !== 'null';
+  const isLoggedIn = Boolean(isValidToken);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {!isLoggedIn ? (
+        <>
+          <div className="container">
+            <div className="row g-3">
+              <div className="col-md-6">
+                <Card>
+                  <Card.Body>
+                    <SignupForm />
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col-md-6">
+                <Card>
+                  <Card.Body>
+                    <LoginForm />
+                  </Card.Body>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="container">
+          <div className="row g-3">
+            <div className="col-md-6">
+              <NotesPage />
+            </div>
+          </div>
+        </div>
+      )}
     </>
-  )
+  );
 }
 
 export default App
